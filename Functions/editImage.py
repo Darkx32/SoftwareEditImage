@@ -36,3 +36,11 @@ class Edit:
             Image: return Image class.
         """
         return self.image.resize(size)
+
+    def GetImage(self) -> Image:
+        """return Image saved in class.
+
+        Returns:
+            Image: return Image class.
+        """
+        return self.image
