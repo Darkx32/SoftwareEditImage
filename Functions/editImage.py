@@ -2,7 +2,6 @@
     Autor: Darkzin
     Libs: PIL
 """
-
 from PIL import Image
 
 class Edit:
@@ -12,6 +11,10 @@ class Edit:
         Args:
             file (str): Name of the file.
         """
+        if len(file.split("\\")) > 1:
+            self.filename = file.replace(file.split("\\")[len(file.split("\\"))], "")
+        else:
+            self.filename = file
         self.file = file
         self.image = Image.open(self.file)
 
@@ -24,7 +27,8 @@ class Edit:
         Returns:
             Image: return Image class.
         """
-        return self.image.rotate(grau)
+        self.image = self.image.rotate(grau)
+        return Edit(self.file)
 
     def resize(self, size: tuple[int, int]) -> Image:
         """Resize image saved.
@@ -35,7 +39,8 @@ class Edit:
         Returns:
             Image: return Image class.
         """
-        return self.image.resize(size)
+        self.image = self.image.resize(size)
+        return Edit(self.file)
 
     def GetImage(self) -> Image:
         """return Image saved in class.
@@ -44,3 +49,28 @@ class Edit:
             Image: return Image class.
         """
         return self.image
+
+    def Show(self, title: str = None) -> None:
+        """Show image.
+
+        Args:
+            title (str, optional): title of the image. Defaults to None.
+        """
+        if title != None: self.image.show(title)
+        else: self.image.show()
+
+    def Convert(self, convert: str = "png", pathToSave: str = None) -> Image:
+        """Convert image and save in path locale.
+
+        Args:
+            convert (str, optional): type for image convert. Defaults to "png".
+            pathToSave (str, optional): locale for save new image. Defaults to None.
+
+        Returns:
+            Image: return Image class.
+        """
+        if pathToSave == None:
+            pathToSave = self.file.replace(f"\\{self.filename}", "")
+        image = self.image.convert("RGB")
+        self.image.save(pathToSave.split(".")[0] + f'.{convert}')
+        return Edit(pathToSave.split(".")[0] + f'.{convert}')
