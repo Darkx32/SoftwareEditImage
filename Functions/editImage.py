@@ -74,3 +74,6 @@ class Edit:
         image = self.image.convert("RGB")
         self.image.save(pathToSave.split(".")[0] + f'.{convert}')
         return Edit(pathToSave.split(".")[0] + f'.{convert}')
+
+if __name__ == "__main__":
+    pass
