@@ -1,6 +1,6 @@
 """
     Autor: Darkx, Waitofu
-    Libs: Pillow
+    Libs: datetime
 """
 from datetime import date
 
