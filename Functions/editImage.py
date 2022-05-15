@@ -72,8 +72,16 @@ class Edit:
         if pathToSave == None:
             pathToSave = self.file.replace(f"\\{self.filename}", "")
         image = self.image.convert("RGB")
-        self.image.save(pathToSave.split(".")[0] + f'.{convert}')
+        image.save(pathToSave.split(".")[0] + f'.{convert}')
         return Edit(pathToSave.split(".")[0] + f'.{convert}')
+
+    def cut(self, box:tuple[int, int, int, int], Save:bool = False):
+        if Save:
+            self.image = self.image.crop(box)
+
+
+        return Edit(self.image)
+
 
 if __name__ == "__main__":
     pass
