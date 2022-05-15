@@ -48,7 +48,7 @@ class Edit:
             Image: return Image class.
         """
         self.image = self.image.rotate(grau)
-        log.on_error(f"Image resized [{self.name}].", log.LOG, self.pathLog)
+        log.on_error(f"Image rotated [{self.name}].", log.LOG, self.pathLog)
         return Edit(self.file)
 
     def resize(self, size: tuple[int, int]) -> Image:
@@ -97,7 +97,8 @@ class Edit:
         image = self.image.convert("RGB")
         image.save(pathToSave.split(".")[0] + f'.{convert}')
         log.on_error(f"Image converted to {convert} [{self.name}].", log.LOG, self.pathLog)
-        return Edit(pathToSave.split(".")[0] + f'.{convert}')
+        return Edit(self.filename if self.filename != None else (self.name + " - Resized"),
+        file=pathToSave.split(".")[0] + f'.{convert}')
 
     def cut(self, box:tuple[int, int, int, int], Save:bool = False) -> Image:
         """Cutting image.
@@ -111,15 +112,24 @@ class Edit:
         """
         if Save:
             self.image = self.image.crop(box)
-            log.on_error("Image resized.", log.LOG, self.pathLog)
+            log.on_error(f"Image cupped and save [{self.name}].", log.LOG, self.pathLog)
             return self.image
         else:
-            log.on_error("Image resized.", log.LOG, self.pathLog)
+            log.on_error(f"Image cupped [{self.name}].", log.LOG, self.pathLog)
             return self.image.crop(box)
 
-    def addFilter(self, filter: ImageFilter):
-        log.on_error("Filter add in image.", log.LOG, self.pathLog)
+    def addFilter(self, filter: ImageFilter) -> Image:
+        """Add filter in image.
+
+        Args:
+            filter (ImageFilter): Type filter for add.
+
+        Returns:
+            Image: return Image class.
+        """
+        log.on_error(f"Filter add in image [{self.name}].", log.LOG, self.pathLog)
         self.image = self.image.filter(filter)
+        return self.image
 
 
 if __name__ == "__main__":
