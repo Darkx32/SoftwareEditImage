@@ -2,21 +2,21 @@
     Autor: Darkx, Waitofu
     Libs: Pillow
 """
-from distutils.log import error
-from ftplib import error_perm
-from PIL import ImageFilter
 from datetime import date
 
 class Vars:
     TYPEFILES = (".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".gif", ".svg", ".avif", ".eps")
 
 class log:
-    def on_error(error, warning):
-        erro = f'[ERROR {date.today()}]\n{error}'
-        aviso = f'[WARNING {date.today()}]\n{warning}'
-        log = f'[LOG {date.today()}]\n'
-        if __name__ == '__main__':
-            open('log.txt', 'w').write(f'{erro}\n{aviso}\n{log}')
+    ERROR = "ERROR"
+    WARN = "WARN"
+    LOG = "LOG"
+
+    def on_error(error: str, Type: str, file: str):
+        open(file, 'a').write(f'[{Type}] {date.today()}: {error}')
+
+    def clearLog(file:str):
+        open(file).write("")
 
 def GetAllFilesInPath(path: str) -> tuple:
     listForReturn = []

@@ -2,24 +2,34 @@
     Autor: Darkzin
     Libs: Pillow
 """
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageColor
 from Functions.tools import *
 
 class Edit:
-    def __init__(self, file:str = None) -> None:
+    def __init__(self, file:str = None, size:tuple(int, int) = None, Color:str = "white") -> None:
         """Create class for edit Image and save in class.
 
         Args:
             file (str): Name of the file.
         """
-        if file.endswith(".gif") or file.endswith(Vars.TYPEFILES):
-            return Exception("Error: Type file is not compatible.")
-        if len(file.split("\\")) > 1:
-            self.filename = file.replace(file.split("\\")[len(file.split("\\"))], "")
+        if file != None:
+            if file.endswith(".gif") or file.endswith(Vars.TYPEFILES):
+                return Exception("Error: Type file is not compatible.")
+            if len(file.split("\\")) > 1:
+                self.filename = file.replace(file.split("\\")[len(file.split("\\"))], "")
+            else:
+                self.filename = file
+            self.file = file
+            self.image = Image.open(self.file)
         else:
-            self.filename = file
-        self.file = file
-        self.image = Image.open(self.file)
+            self.size = [600, 500] if size == None else size
+            self.image = Image.new("RGB", self.size, Color)
+
+    def __Nones(self):
+        self.file = None
+        self.filename = None
+        self.image = None
+        self.size = None
 
     def rotate(self, grau: float) -> Image:
         """Rotate image saved.
@@ -33,7 +43,7 @@ class Edit:
         self.image = self.image.rotate(grau)
         return Edit(self.file)
 
-    def resize(self, size: tuple[int, int]) -> Image:
+    def resize(self, size: tuple(int, int)) -> Image:
         """Resize image saved.
 
         Args:
@@ -78,7 +88,7 @@ class Edit:
         image.save(pathToSave.split(".")[0] + f'.{convert}')
         return Edit(pathToSave.split(".")[0] + f'.{convert}')
 
-    def cut(self, box:tuple[int, int, int, int], Save:bool = False) -> Image:
+    def cut(self, box:tuple(int, int, int, int), Save:bool = False) -> Image:
         """Cutting image.
 
         Args:
