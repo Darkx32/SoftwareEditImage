@@ -6,12 +6,14 @@ from PIL import Image
 from Functions.tools import *
 
 class Edit:
-    def __init__(self, file:str) -> None:
+    def __init__(self, file:str = None) -> None:
         """Create class for edit Image and save in class.
 
         Args:
             file (str): Name of the file.
         """
+        if file.endswith(".gif") or file.endswith(Vars.TYPEFILES):
+            return Exception("Error: Type file is not compatible.")
         if len(file.split("\\")) > 1:
             self.filename = file.replace(file.split("\\")[len(file.split("\\"))], "")
         else:
@@ -77,6 +79,15 @@ class Edit:
         return Edit(pathToSave.split(".")[0] + f'.{convert}')
 
     def cut(self, box:tuple[int, int, int, int], Save:bool = False) -> Image:
+        """Cutting image.
+
+        Args:
+            box (tuple[int, int, int, int]): x: int, y: int, width: int, height: int.
+            Save (bool, optional): Save in the variabel of the class. Defaults to False.
+
+        Returns:
+            Image: return Image class.
+        """
         if Save:
             self.image = self.image.crop(box)
             return self.image
