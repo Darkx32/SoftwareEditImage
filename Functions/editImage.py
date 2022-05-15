@@ -2,7 +2,7 @@
     Autor: Darkzin
     Libs: Pillow
 """
-from PIL import Image
+from PIL import Image, ImageFilter
 from Functions.tools import *
 
 class Edit:
@@ -94,7 +94,7 @@ class Edit:
         else:
             return self.image.crop(box)
 
-    def addFilter(self, filter: Filters):
+    def addFilter(self, filter: ImageFilter):
         self.image = self.image.filter(filter)
 
 
