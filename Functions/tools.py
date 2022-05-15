@@ -13,7 +13,7 @@ class log:
     LOG = "LOG"
 
     def on_error(error: str, Type: str, file: str):
-        open(file, 'a').write(f'[{Type}] {date.today()}: {error}')
+        open(file, 'a').write(f'[{Type}] {date.today()}: {error}\n')
 
     def clearLog(file:str):
         open(file).write("")

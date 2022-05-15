@@ -133,5 +133,5 @@ class Edit:
 
 
 if __name__ == "__main__":
-    edit = Edit("dog")
+    edit = Edit("dog",Color="black")
     edit.Show()
