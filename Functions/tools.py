@@ -1,3 +1,7 @@
+"""
+    Autor: Darkx
+    Libs: Pillow
+"""
 from PIL import ImageFilter
 
 class Filters(ImageFilter):

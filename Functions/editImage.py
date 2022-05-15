@@ -1,6 +1,6 @@
 """
     Autor: Darkzin
-    Libs: PIL
+    Libs: Pillow
 """
 from PIL import Image
 from Functions.tools import *
@@ -84,7 +84,7 @@ class Edit:
             return self.image.crop(box)
 
     def addFilter(self, filter: Filters):
-        self.image = self.image.filter(Filters)
+        self.image = self.image.filter(filter)
 
 
 if __name__ == "__main__":
