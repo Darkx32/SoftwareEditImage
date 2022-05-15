@@ -1,3 +1,8 @@
+from PIL import ImageFilter
+
+class Filters(ImageFilter):
+    pass
+
 class Vars:
     TYPEFILES = (".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".gif", ".svg", ".avif", ".eps")
 

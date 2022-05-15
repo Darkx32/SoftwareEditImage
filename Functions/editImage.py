@@ -3,6 +3,7 @@
     Libs: PIL
 """
 from PIL import Image
+from Functions.tools import *
 
 class Edit:
     def __init__(self, file:str) -> None:
@@ -75,13 +76,18 @@ class Edit:
         image.save(pathToSave.split(".")[0] + f'.{convert}')
         return Edit(pathToSave.split(".")[0] + f'.{convert}')
 
-    def cut(self, box:tuple[int, int, int, int], Save:bool = False):
+    def cut(self, box:tuple[int, int, int, int], Save:bool = False) -> Image:
         if Save:
             self.image = self.image.crop(box)
+            return self.image
+        else:
+            return self.image.crop(box)
 
-
-        return Edit(self.image)
+    def addFilter(self, filter: Filters):
+        self.image = self.image.filter(Filters)
 
 
 if __name__ == "__main__":
-    pass
+    edit = Edit("Functions/Images/flower.jpg")
+    a = edit.cut((0, 0, 100, 100), False)
+    a.show()
