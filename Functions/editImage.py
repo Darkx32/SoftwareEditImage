@@ -2,19 +2,26 @@
     Autor: Darkzin
     Libs: Pillow
 """
-from PIL import Image, ImageFilter, ImageColor
-from Functions.tools import *
+from PIL import Image, ImageFilter
+try:
+    from tools import *
+except:
+    from Functions.tools import *
 
 class Edit:
-    def __init__(self, file:str = None, size:tuple(int, int) = None, Color:str = "white") -> None:
+    def __init__(self, name: str, file:str = None, size:tuple[int, int] = None, Color:str = "white", pathLog:str = "logs.txt") -> None:
         """Create class for edit Image and save in class.
 
         Args:
             file (str): Name of the file.
         """
+        self.name = name
+        self.__Nones()
+        self.pathLog = pathLog
+
         if file != None:
-            if file.endswith(".gif") or file.endswith(Vars.TYPEFILES):
-                return Exception("Error: Type file is not compatible.")
+            if file.endswith(".gif"):
+                return log.on_error(f"File is not compatible [{self.name}]", log.ERROR, self.pathLog)
             if len(file.split("\\")) > 1:
                 self.filename = file.replace(file.split("\\")[len(file.split("\\"))], "")
             else:
@@ -41,9 +48,10 @@ class Edit:
             Image: return Image class.
         """
         self.image = self.image.rotate(grau)
+        log.on_error(f"Image resized [{self.name}].", log.LOG, self.pathLog)
         return Edit(self.file)
 
-    def resize(self, size: tuple(int, int)) -> Image:
+    def resize(self, size: tuple[int, int]) -> Image:
         """Resize image saved.
 
         Args:
@@ -53,6 +61,7 @@ class Edit:
             Image: return Image class.
         """
         self.image = self.image.resize(size)
+        log.on_error(f"Image resized [{self.name}].", log.LOG, self.pathLog)
         return Edit(self.file)
 
     def GetImage(self) -> Image:
@@ -71,6 +80,7 @@ class Edit:
         """
         if title != None: self.image.show(title)
         else: self.image.show()
+        log.on_error(f"Image Showned [{self.name}].", log.LOG, self.pathLog)
 
     def Convert(self, convert: str = "png", pathToSave: str = None) -> Image:
         """Convert image and save in path locale.
@@ -86,9 +96,10 @@ class Edit:
             pathToSave = self.file.replace(f"\\{self.filename}", "")
         image = self.image.convert("RGB")
         image.save(pathToSave.split(".")[0] + f'.{convert}')
+        log.on_error(f"Image converted to {convert} [{self.name}].", log.LOG, self.pathLog)
         return Edit(pathToSave.split(".")[0] + f'.{convert}')
 
-    def cut(self, box:tuple(int, int, int, int), Save:bool = False) -> Image:
+    def cut(self, box:tuple[int, int, int, int], Save:bool = False) -> Image:
         """Cutting image.
 
         Args:
@@ -100,15 +111,17 @@ class Edit:
         """
         if Save:
             self.image = self.image.crop(box)
+            log.on_error("Image resized.", log.LOG, self.pathLog)
             return self.image
         else:
+            log.on_error("Image resized.", log.LOG, self.pathLog)
             return self.image.crop(box)
 
     def addFilter(self, filter: ImageFilter):
+        log.on_error("Filter add in image.", log.LOG, self.pathLog)
         self.image = self.image.filter(filter)
 
 
 if __name__ == "__main__":
-    edit = Edit("Functions/Images/flower.jpg")
-    a = edit.cut((0, 0, 100, 100), False)
-    a.show()
+    edit = Edit("dog")
+    edit.Show()
