@@ -131,6 +131,20 @@ class Edit:
         self.image = self.image.filter(filter)
         return self.image
 
+    def blend(self, image: any, save: bool) -> Image:
+        """Blend images.
+
+        Args:
+            image (any): Image class
+            save (bool): Save in var of the class.
+
+        Returns:
+            Image: return Image class.
+        """
+        if save:
+            self.image = Image.blend(self.image, image, 1)
+        return Image.blend(self.image, image, 1)
+
 
 if __name__ == "__main__":
     edit = Edit("dog",Color="black")
